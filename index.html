@@ -8,98 +8,179 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#08080b;
-  color:white;
-  font-family:Arial,sans-serif;
-  overflow:hidden;
+  min-height:100vh;display:flex;align-items:center;
+  justify-content:center;background:#08080b;color:white;
+  font-family:Arial,sans-serif;padding:24px;
 }
 body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:radial-gradient(ellipse at center,#25202d 0%,#0b0a0e 65%);
-  z-index:-1;
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:radial-gradient(ellipse at center,#30203d,#0b0a0e 70%);
 }
 .card{
-  width:min(440px,92vw);
-  padding:35px 28px;
-  border:1px solid #ffffff18;
-  border-radius:18px;
-  background:#111114c9;
-  backdrop-filter:blur(18px);
-  text-align:center;
-  box-shadow:0 20px 80px #0008;
-  animation:appear .8s ease;
+  width:min(480px,100%);padding:28px 24px;
+  border:1px solid #ffffff18;border-radius:18px;
+  background:#111114e8;backdrop-filter:blur(18px);
+  text-align:center;box-shadow:0 20px 80px #0008;
+  animation:appear .5s ease;
 }
-@keyframes appear{
-  from{opacity:0;transform:translateY(15px)}
-  to{opacity:1;transform:translateY(0)}
-}
+@keyframes appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .avatar{
-  width:100px;height:100px;
-  object-fit:cover;
-  border-radius:50%;
-  border:2px solid #b45cff;
-  padding:3px;
-  margin-bottom:16px;
+  width:96px;height:96px;object-fit:cover;border-radius:50%;
+  border:2px solid #b45cff;padding:3px;margin-bottom:14px;
 }
 h1{font-size:30px;letter-spacing:1px}
-.tag{color:#b45cff;font-size:13px;margin-top:7px}
-.bio{color:#aaa;font-size:14px;line-height:1.7;margin:19px 0}
+.tag{color:#c58aff;font-size:13px;margin-top:7px}
+.bio{color:#aaa;font-size:14px;line-height:1.7;margin:15px 0}
+.tabs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:22px 0}
+.tabs button,.music button{
+  color:#ddd;background:#ffffff08;border:1px solid #ffffff1c;
+  border-radius:8px;padding:10px 12px;cursor:pointer;
+  transition:.2s;font-size:12px;
+}
+.tabs button:hover,.tabs button.active,.music button:hover{
+  background:#b45cff25;border-color:#b45cff;color:white;
+}
+.page{display:none;text-align:left;min-height:150px;padding:8px 2px}
+.page.active{display:block;animation:appear .25s ease}
+.page h2{text-align:center;font-size:20px;margin:8px 0 16px}
+.page p{color:#aaa;font-size:14px;line-height:1.8;text-align:center}
 .links{display:grid;gap:10px}
-.links a{
-  text-decoration:none;
-  color:white;
-  background:#ffffff08;
-  border:1px solid #ffffff16;
-  padding:13px;
-  border-radius:9px;
-  transition:.2s;
+.links a,.project{
+  display:block;text-decoration:none;color:white;
+  background:#ffffff08;border:1px solid #ffffff16;
+  padding:13px;border-radius:9px;transition:.2s;
 }
-.links a:hover{
-  background:#b45cff20;
-  border-color:#b45cff;
-  transform:translateY(-2px);
-}
-.footer{margin-top:24px;color:#666;font-size:11px}
+.links a:hover{background:#b45cff20;border-color:#b45cff;transform:translateY(-2px)}
+.project{margin-bottom:10px}
+.project strong{color:#d3a5ff;display:block;margin-bottom:5px}
+.project span{font-size:13px;color:#aaa}
+.friend{padding:12px;border-bottom:1px solid #ffffff12;color:#ddd;font-size:14px}
+.friend:last-child{border:0}
+.music{border-top:1px solid #ffffff15;margin-top:20px;padding-top:18px}
+.music p{color:#888;font-size:12px;margin-bottom:10px}
+.music-controls{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.music button{font-size:13px}
+input[type=range]{width:90px;accent-color:#b45cff;cursor:pointer}
+.footer{margin-top:22px;color:#666;font-size:11px}
 </style>
 </head>
 <body>
 <main class="card">
-  <img class="avatar"
-    src="pfp.webp"
-    alt="Profile picture">
-  <h1>Mixy</h1>
-  <p class="tag">✦ @Mixy</p>
-  <p class="bio">
-    im so tuff fr fr<br>
-    developer • gamer • creator
-  </p>
-  <div class="links">
-    <a href="https://discord.com/" target="_blank">Discord</a>
-    <a href="https://github.com/" target="_blank">GitHub</a>
-    <a href="https://youtube.com/" target="_blank">YouTube</a>
-    <a href="https://tiktok.com/" target="_blank">TikTok</a>
-  </div>
-  <p class="footer">MADE BY MIXY</p>
-  
-<audio id="music" src="music.mp3.mp3" loop></audio>
+  <header>
+    <img class="avatar" src="pfp.webp" alt="Mixy's profile picture">
+    <h1>Mixy</h1>
+    <p class="tag">✦ @Mixy</p>
+    <p class="bio">im so tuff fr fr<br>developer • gamer • creator</p>
+  </header>
 
-<div style="margin-top:20px">
-  <button onclick="document.getElementById('music').play()">▶ Play</button>
-  <button onclick="document.getElementById('music').pause()">Ⅱ Pause</button>
-  <input type="range" min="0" max="1" step="0.01" value="0.5"
-  oninput="document.getElementById('music').volume=this.value">
-</div>
+  <nav class="tabs" aria-label="Website pages">
+    <button class="active" data-page="home">Home</button>
+    <button data-page="about">About Me</button>
+    <button data-page="projects">Projects</button>
+    <button data-page="friends">Friends</button>
+    <button data-page="socials">Socials</button>
+  </nav>
+
+  <section class="page active" id="home">
+    <h2>Welcome</h2>
+    <p>welcome to my corner of the internet</p>
+    <p>check out my projects and socials using the tabs above</p>
+  </section>
+
+  <section class="page" id="about">
+    <h2>About Me</h2>
+    <p>yo im Mixy</p>
+    <p>i make games, mess with code and play games</p>
+    <p>thanks for visiting my page</p>
+  </section>
+
+  <section class="page" id="projects">
+    <h2>My Projects</h2>
+    <div class="project">
+      <strong>PROJECT MIXY</strong>
+      <span>my game development project</span>
+    </div>
+    <div class="project">
+      <strong>MIXY FIGHTER</strong>
+      <span>my C# console game</span>
+    </div>
+    <div class="project">
+      <strong>More soon</strong>
+      <span>more projects coming later</span>
+    </div>
+  </section>
+
+  <section class="page" id="friends">
+    <h2>Friends</h2>
+    <div class="friend">Friend 1 · add their name here</div>
+    <div class="friend">Friend 2 · add their name here</div>
+    <div class="friend">Friend 3 · add their name here</div>
+  </section>
+
+  <section class="page" id="socials">
+    <h2>Find Me</h2>
+    <div class="links">
+      <a href="https://discord.com/" target="_blank" rel="noopener noreferrer">Discord ↗</a>
+      <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+      <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer">TikTok ↗</a>
+    </div>
+  </section>
+
+  <div class="music">
+    <p>NOW PLAYING · MIXY'S MUSIC</p>
+    <audio id="music" src="music.mp3.mp3" loop preload="metadata"></audio>
+    <div class="music-controls">
+      <button id="play">▶ Play</button>
+      <button id="pause">Ⅱ Pause</button>
+      <label for="volume" style="font-size:12px;color:#aaa">Volume</label>
+      <input id="volume" type="range" min="0" max="1" step="0.01" value="0.5">
+    </div>
+    <p id="music-status" style="margin-top:10px">click play to start the music</p>
+  </div>
+
+  <p class="footer">MADE BY MIXY</p>
+</main>
 
 <script>
-document.getElementById('music').volume = 0.5;
-</script>
+const tabButtons = document.querySelectorAll(".tabs button");
+const pages = document.querySelectorAll(".page");
 
-</main>
+tabButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    tabButtons.forEach(item => item.classList.remove("active"));
+    pages.forEach(page => page.classList.remove("active"));
+    button.classList.add("active");
+    document.getElementById(button.dataset.page).classList.add("active");
+  });
+});
+
+const music = document.getElementById("music");
+const status = document.getElementById("music-status");
+
+music.volume = 0.5;
+
+document.getElementById("play").addEventListener("click", async () => {
+  try {
+    await music.play();
+    status.textContent = "music playing";
+  } catch (error) {
+    status.textContent = "couldn't play music · check the file";
+  }
+});
+
+document.getElementById("pause").addEventListener("click", () => {
+  music.pause();
+  status.textContent = "music paused";
+});
+
+document.getElementById("volume").addEventListener("input", event => {
+  music.volume = Number(event.target.value);
+});
+
+music.addEventListener("error", () => {
+  status.textContent = "music file couldn't load · check filename";
+});
+</script>
 </body>
 </html>
