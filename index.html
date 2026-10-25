@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mixy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#08080b;
+  color:white;
+  font-family:Arial,sans-serif;
+  overflow:hidden;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:radial-gradient(ellipse at center,#25202d 0%,#0b0a0e 65%);
+  z-index:-1;
+}
+.card{
+  width:min(440px,92vw);
+  padding:35px 28px;
+  border:1px solid #ffffff18;
+  border-radius:18px;
+  background:#111114c9;
+  backdrop-filter:blur(18px);
+  text-align:center;
+  box-shadow:0 20px 80px #0008;
+  animation:appear .8s ease;
+}
+@keyframes appear{
+  from{opacity:0;transform:translateY(15px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.avatar{
+  width:100px;height:100px;
+  object-fit:cover;
+  border-radius:50%;
+  border:2px solid #b45cff;
+  padding:3px;
+  margin-bottom:16px;
+}
+h1{font-size:30px;letter-spacing:1px}
+.tag{color:#b45cff;font-size:13px;margin-top:7px}
+.bio{color:#aaa;font-size:14px;line-height:1.7;margin:19px 0}
+.links{display:grid;gap:10px}
+.links a{
+  text-decoration:none;
+  color:white;
+  background:#ffffff08;
+  border:1px solid #ffffff16;
+  padding:13px;
+  border-radius:9px;
+  transition:.2s;
+}
+.links a:hover{
+  background:#b45cff20;
+  border-color:#b45cff;
+  transform:translateY(-2px);
+}
+.footer{margin-top:24px;color:#666;font-size:11px}
+</style>
+</head>
+<body>
+<main class="card">
+  <img class="avatar"
+    src="https://placehold.co/200x200/17121f/b45cff?text=M"
+    alt="Profile picture">
+  <h1>Mixy</h1>
+  <p class="tag">✦ @mixy</p>
+  <p class="bio">
+    welcome to my corner of the internet<br>
+    developer • gamer • creator
+  </p>
+  <div class="links">
+    <a href="https://discord.com/" target="_blank">Discord</a>
+    <a href="https://github.com/" target="_blank">GitHub</a>
+    <a href="https://youtube.com/" target="_blank">YouTube</a>
+    <a href="https://tiktok.com/" target="_blank">TikTok</a>
+  </div>
+  <p class="footer">MADE BY MIXY</p>
+</main>
+</body>
+</html>
