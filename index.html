@@ -86,6 +86,20 @@ h1{font-size:30px;letter-spacing:1px}
     <a href="https://tiktok.com/" target="_blank">TikTok</a>
   </div>
   <p class="footer">MADE BY MIXY</p>
+  
+<audio id="music" src="music.mp3.mp3" loop></audio>
+
+<div style="margin-top:20px">
+  <button onclick="document.getElementById('music').play()">▶ Play</button>
+  <button onclick="document.getElementById('music').pause()">Ⅱ Pause</button>
+  <input type="range" min="0" max="1" step="0.01" value="0.5"
+  oninput="document.getElementById('music').volume=this.value">
+</div>
+
+<script>
+document.getElementById('music').volume = 0.5;
+</script>
+
 </main>
 </body>
 </html>
