@@ -215,9 +215,8 @@ h1 { margin: 14px 0 5px; font-size: 30px; letter-spacing: 1px; }
     <button class="active" data-page="home">Home</button>
     <button data-page="about">About Me</button>
     <button data-page="projects">Projects</button>
-    <button data-page="friends">Friends</button>
-    <button data-page="socials">Socials</button>
     <button data-page="gaming">Gaming</button>
+    <button data-page="socials">Socials</button>
   </nav>
 
   <section class="page active" id="home">
@@ -269,15 +268,27 @@ h1 { margin: 14px 0 5px; font-size: 30px; letter-spacing: 1px; }
     </div>
   </section>
 
-  <section class="page" id="friends">
-    <h2>Friends</h2>
-    <p class="description">the people i create and game with</p>
-    <div style="margin-top:16px">
-      <div class="friend">✦ Friend 1 · 3AMDAWN</div>
-      <div class="friend">✦ Friend 2 · Piehat</div>
-      <div class="friend">✦ Friend 3 · Ice</div>
-      <div class="friend">✦ More I cant remember off top of head</div>
+  <section class="page" id="gaming">
+    <h2>Gaming</h2>
+    <p class="description">what im playing rn · updates from Discord</p>
+
+    <div class="project game-card" style="margin-top:18px">
+      <div class="project-type">LIVE DISCORD ACTIVITY</div>
+      <strong id="game-name">Checking Discord...</strong>
+      <span id="game-details">Connecting to your presence</span>
+      <img id="game-artwork" alt="Game artwork" style="display:none;width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:12px">
+      <div class="status" style="margin-top:14px">
+        <span class="status-dot offline" id="game-dot"></span>
+        <span id="game-presence">Loading status...</span>
+      </div>
+      <p id="game-state" style="font-size:12px;color:var(--muted);margin-bottom:0"></p>
+      <p id="game-updated" style="font-size:10px;color:#81788c;margin-bottom:0">Updates every 30 seconds</p>
     </div>
+
+    <p class="section-label">MY GAMING SETUP</p>
+    <div class="friend">🎮 Favorite platform · Meta Quest</div>
+    <div class="friend">💻 Game engine · Unity</div>
+    <div class="friend">⌨️ Coding · C#</div>
   </section>
 
   <section class="page" id="socials">
@@ -301,37 +312,7 @@ h1 { margin: 14px 0 5px; font-size: 30px; letter-spacing: 1px; }
       <a class="btn" style="text-align:center;text-decoration:none" href="https://discord.gg/JTmNaWkSXY" target="_blank" rel="noopener noreferrer">Join Discord ↗</a>
     </div>
   </section>
-<section class="page" id="gaming">
-  <h2>Gaming</h2>
-  <p class="description">games i play the most</p>
 
-  <div class="projects">
-
-    <div class="project">
-      <span class="project-type">VR</span>
-      <strong>Gorilla Tag</strong>
-      <span>Main game • Modding • Unity</span>
-    </div>
-
-    <div class="project">
-      <span class="project-type">SURVIVAL</span>
-      <strong>Minecraft</strong>
-      <span>Building servers and SMPs</span>
-    </div>
-
-    <div class="project">
-      <span class="project-type">ROBLOX</span>
-      <strong>Barely Play</strong>
-      <span>Grinding and chilling</span>
-    </div>
-
-  </div>
-
-  <div class="friend" style="margin-top:15px;">
-    🎮 Currently Playing: <span id="playing-game">Geometry Dash/Gtag</span>
-  </div>
-</section>
-  
   <section class="music">
     <div class="music-heading">
       <strong>NOW PLAYING</strong>
@@ -490,31 +471,98 @@ document.getElementById("volume").addEventListener("input", e => {
   music.volume = Number(e.target.value);
 });
 
-// Live Discord status via Lanyard. Join https://discord.gg/lanyard first.
+// Live Discord status and gaming activity via Lanyard.
+// Join https://discord.gg/lanyard so your presence can be shared.
 const discordId = "1433657959153668156";
 const discordDot = document.getElementById("discord-dot");
 const discordText = document.getElementById("discord-status");
+
 async function updateDiscordStatus() {
+  const gameName = document.getElementById("game-name");
+  const gameDetails = document.getElementById("game-details");
+  const gameDot = document.getElementById("game-dot");
+  const gamePresence = document.getElementById("game-presence");
+  const gameState = document.getElementById("game-state");
+  const gameArtwork = document.getElementById("game-artwork");
+  const gameUpdated = document.getElementById("game-updated");
+
   try {
     const response = await fetch(`https://api.lanyard.rest/v1/users/${discordId}`);
     if (!response.ok) throw new Error("Status request failed");
-    const result = await response.json();
-    if (!result.success || !result.data) throw new Error("Status unavailable");
 
-    const status = result.data.discord_status || "offline";
+    const result = await response.json();
+    if (!result.success || !result.data) throw new Error("Presence unavailable");
+
+    const data = result.data;
+    const status = data.discord_status || "offline";
     const labels = {
       online: "Online",
       idle: "Away",
       dnd: "Do Not Disturb",
       offline: "Offline"
     };
-    discordText.textContent = labels[status] || "Offline";
+    const statusLabel = labels[status] || "Offline";
+
+    discordText.textContent = statusLabel;
     discordDot.className = `status-dot ${status}`;
+
+    gameDot.className = `status-dot ${status}`;
+    gamePresence.textContent = statusLabel;
+
+    const activities = Array.isArray(data.activities) ? data.activities : [];
+    const activity = activities.find(item =>
+      item && [0, 2, 3].includes(item.type)
+    );
+
+    if (!activity) {
+      gameName.textContent = "Not playing anything";
+      gameDetails.textContent = status === "offline"
+        ? "Discord shows you as offline"
+        : "No game activity is being shared";
+      gameState.textContent = "";
+      gameArtwork.style.display = "none";
+      gameArtwork.removeAttribute("src");
+    } else {
+      gameName.textContent = activity.name || "Unknown activity";
+      gameDetails.textContent = activity.details || activity.name || "Activity detected";
+      gameState.textContent = activity.state || "";
+
+      let imageUrl = "";
+      const appId = activity.application_id;
+      const asset = activity.assets && activity.assets.large_image;
+
+      if (asset && asset.startsWith("mp:external/")) {
+        imageUrl = "https://media.discordapp.net/" + asset.slice(3);
+      } else if (asset && asset.startsWith("https://")) {
+        imageUrl = asset;
+      } else if (asset && appId && !asset.startsWith("spotify:")) {
+        imageUrl = `https://cdn.discordapp.com/app-assets/${appId}/${asset}.png`;
+      }
+
+      if (imageUrl) {
+        gameArtwork.onload = () => { gameArtwork.style.display = "block"; };
+        gameArtwork.onerror = () => { gameArtwork.style.display = "none"; };
+        gameArtwork.src = imageUrl;
+      } else {
+        gameArtwork.style.display = "none";
+        gameArtwork.removeAttribute("src");
+      }
+    }
+
+    gameUpdated.textContent = "Live Discord activity · refreshes every 30 seconds";
   } catch (error) {
     discordText.textContent = "Discord status unavailable";
     discordDot.className = "status-dot offline";
+    gameName.textContent = "Couldn't load activity";
+    gameDetails.textContent = "Check that you've joined Lanyard";
+    gameDot.className = "status-dot offline";
+    gamePresence.textContent = "Unavailable";
+    gameState.textContent = "";
+    gameArtwork.style.display = "none";
+    gameUpdated.textContent = "Couldn't connect to the Lanyard API";
   }
 }
+
 updateDiscordStatus();
 setInterval(updateDiscordStatus, 30000);
 
