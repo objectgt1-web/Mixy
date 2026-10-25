@@ -518,10 +518,10 @@ async function updateDiscordStatus() {
     const status = data.discord_status || "offline";
 
     const labels = {
-      online: "Online",
-      idle: "Away",
-      dnd: "Do Not Disturb",
-      offline: "Offline"
+      online: " 🟢Online",
+      idle: " 🟡Away",
+      dnd: " 🔴Do Not Disturb",
+      offline: " Offline"
     };
 
     statusText.textContent = labels[status] || "Offline";
