@@ -68,7 +68,25 @@ h1 { margin: 14px 0 5px; font-size: 30px; }
   border-radius: 50%;
   background: #747f8d;
 }
-.dot.online { background: #23d18b; }
+.dot.online {
+  background: #23d18b;
+  box-shadow: 0 0 8px #23d18b88;
+}
+
+.dot.idle {
+  background: #f0b232;
+  box-shadow: 0 0 8px #f0b23288;
+}
+
+.dot.dnd {
+  background: #f23f43;
+  box-shadow: 0 0 8px #f23f4388;
+}
+
+.dot.offline {
+  background: #747f8d;
+  box-shadow: 0 0 8px #747f8d55;
+}
 .tabs {
   display: flex;
   justify-content: center;
